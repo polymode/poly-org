@@ -6,7 +6,7 @@
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "25") (polymode "0.1"))
 ;; URL: https://github.com/polymode/poly-org
-;; Keywords: emacs
+;; Keywords: languages, multi-modes
 ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -35,18 +35,18 @@
 ;;
 ;;; Code:
 
-(require 'polymode)
 (require 'org-src)
+(require 'polymode)
 
 (defcustom pm-host/org
-  (pm-host-chunkmode "Org mode"
+  (pm-host-chunkmode :object-name "Org mode"
                      :mode 'org-mode)
   "Org host chunkmode."
-  :group 'hostmodes
+  :group 'poly-host-modes
   :type 'object)
 
 (defcustom  pm-inner/org
-  (pm-inner-auto-chunkmode "org"
+  (pm-inner-auto-chunkmode :object-name "org"
                            :head-matcher "^[ \t]*#\\+begin_src .*$"
                            :tail-matcher "^[ \t]*#\\+end_src"
                            :head-mode 'host
@@ -54,11 +54,11 @@
                            :head-matcher "#\\+begin_src +\\(\\(\\w\\|\\s_\\)+\\)"
                            :indent-offset org-edit-src-content-indentation)
   "Org typical chunk."
-  :group 'innermodes
+  :group 'poly-inner-modes
   :type 'object)
 
 (defcustom pm-poly/org
-  (pm-polymode "org"
+  (pm-polymode :object-name "org"
                :hostmode 'pm-host/org
                :innermodes '(pm-inner/org))
   "Org typical polymode configuration."
@@ -69,4 +69,3 @@
 (define-polymode poly-org-mode pm-poly/org)
 
 (provide 'poly-org)
-;;; poly-org.el ends here

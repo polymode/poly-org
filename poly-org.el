@@ -51,7 +51,8 @@
                            :tail-matcher "^[ \t]*#\\+end_src"
                            :head-mode 'host
                            :tail-mode 'host
-                           :head-matcher "#\\+begin_src +\\(\\(\\w\\|\\s_\\)+\\)"
+                           :head-adjust-face nil
+                           :mode-matcher (cons "#\\+begin_src +\\(\\(\\w\\|\\s_\\)+\\)" 1)
                            :indent-offset org-edit-src-content-indentation)
   "Org typical chunk."
   :group 'poly-inner-modes

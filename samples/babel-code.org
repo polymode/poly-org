@@ -1,0 +1,122 @@
+#+TITLE:      Babel: Code
+#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+AUTHOR:     Eric Schulte, Dan Davison, Tom Dye
+#+LANGUAGE:   en
+#+LINK_HOME: https://orgmode.org/worg/org-contrib/babel/intro.html
+
+This is a cut-off excerpt containing various code blocks from "Babel:
+Introduction" document available at https://orgmode.org/worg/org-contrib/babel/intro.html
+
+* Source Code Execution
+
+  Babel executes code blocks for *interpreted* languages such
+  as shell, python, R, etc. by passing code to the interpreter, which
+  must be installed on your system.  You control what is done with the
+  results of execution.
+
+  Here are examples of code blocks in three different languages,
+  followed by their output. If you are viewing the Org-mode version of
+  this document in Emacs, place point anywhere inside a block and press
+  C-c C-c to run the code[fn:1] (and feel free to alter it!).
+  
+*** Ruby
+
+    HTML export of code:
+    #+begin_src ruby
+      "This file was last evaluated on #{Date.today}"
+    #+end_src
+
+*** Shell
+
+    HTML export of code:
+    #+begin_src sh
+      echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
+    #+end_src
+
+*** R
+    What are the most common words in this file?
+
+    HTML export of code:
+
+    #+begin_src R :colnames yes
+      words <- tolower(scan("babel-code.org", what="", na.strings=c("|",":")))
+      t(sort(table(words[nchar(words) > 3]), decreasing=TRUE)[1:10])
+    #+end_src
+
+    #+RESULTS:
+    | code | org-mode | #+end_src | #+begin_src | block | with | babel | that | #+name: | this |
+    |------+----------+-----------+-------------+-------+------+-------+------+---------+------|
+    |   85 |       60 |        47 |          44 |    40 |   38 |    35 |   34 |      33 |   33 |
+
+*** ditaa
+
+    HTML export of code:
+    #+begin_src ditaa :file blue.png :cmdline -r
+        +---------+
+        | cBLU    |
+        |         |
+        |    +----+
+        |    |cPNK|
+        |    |    |
+        +----+----+
+    #+end_src
+
+* Arguments to Code Blocks
+
+** Simple example of using a code block as a function@
+
+   First let's look at a very simple example. The following source
+   code block defines a function, using python, that squares its argument.
+
+   #+name: square
+   #+header: :var x=0
+   #+begin_src python
+     return x*x
+   #+end_src
+
+   Now we use the source block:
+
+   (/for information on the/ =call= /syntax see/ Library of Babel)
+
+   #+call: square(x=6)
+
+   #+results: square(x=6)
+   : 36
+
+** A more complex example using an Org-mode table as input
+
+   In this example we define a function called =fibonacci-seq=, using
+   Emacs Lisp.  The function =fibonacci-seq= computes a Fibonacci
+   sequence.  The function takes a single argument, in this case, a
+   reference to an Org-mode table.
+
+   Here is the Org-mode table that is passed to =fibonacci-seq=:
+
+   #+name: fibonacci-inputs
+   | 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8 |  9 | 10 |
+   | 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 | 18 | 20 |
+
+   The Emacs Lisp source code:
+   #+name: fibonacci-seq
+   #+begin_src emacs-lisp :var fib-inputs=fibonacci-inputs
+     (defun fibonacci (n)
+       (if (or (= n 0) (= n 1))
+           n
+         (+ (fibonacci (- n 1)) (fibonacci (- n 2)))))
+
+     (mapcar (lambda (row)
+               (mapcar #'fibonacci row)) fib-inputs)
+   #+end_src
+
+   The return value of =fibonacci-seq= is a table:
+   #+resname:
+   | 1 | 1 | 2 |  3 |  5 |   8 |  13 |  21 |   34 |   55 |
+   | 1 | 3 | 8 | 21 | 55 | 144 | 377 | 987 | 2584 | 6765 |
+
+** In-line Code Blocks
+   Code can be evaluated in-line using the following syntax:
+
+   : Without header args: src_lang{code} or with header args: src_lang[args]{code},
+   : for example src_python[:session]{10*x}, where x is a variable existing in the
+   : python session.

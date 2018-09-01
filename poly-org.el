@@ -39,20 +39,23 @@
 (require 'polymode)
 
 (defcustom pm-host/org
-  (pm-host-chunkmode :name "Org mode"
-                     :mode 'org-mode)
+  (pm-host-chunkmode :name "org"
+                     :mode 'org-mode
+                     :protect-syntax nil
+                     :protect-font-lock nil)
   "Org host chunkmode."
   :group 'poly-host-modes
   :type 'object)
 
 (defcustom  pm-inner/org
   (pm-inner-auto-chunkmode :name "org"
-                           :head-matcher "^[ \t]*#\\+begin_src .*$"
-                           :tail-matcher "^[ \t]*#\\+end_src"
+                           :mode 'host
                            :head-mode 'host
                            :tail-mode 'host
+                           :head-matcher "^[ \t]*#\\+begin_src .*$"
+                           :tail-matcher "^[ \t]*#\\+end_src"
                            :head-adjust-face nil
-                           :mode-matcher (cons "#\\+begin_src +\\(\\(\\w\\|\\s_\\)+\\)" 1)
+                           :mode-matcher (cons "#\\+begin_src +\\([^ \t\n]+\\)" 1)
                            :indent-offset org-edit-src-content-indentation)
   "Org typical chunk."
   :group 'poly-inner-modes

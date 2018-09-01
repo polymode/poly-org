@@ -69,4 +69,7 @@
 ;;;###autoload  (autoload 'poly-org-mode "poly-org")
 (define-polymode poly-org-mode pm-poly/org)
 
+ ;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.org$" . poly-org-mode))
+
 (provide 'poly-org)

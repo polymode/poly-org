@@ -30,8 +30,9 @@ Introduction" document available at https://orgmode.org/worg/org-contrib/babel/i
 *** Shell
 
     HTML export of code:
-    #+begin_src sh
-      echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
+    #+begin_src pascal
+       // shell prints messages on initialization; so we are using pascal here for test's sake
+       echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
     #+end_src
 
 *** R
@@ -52,7 +53,7 @@ Introduction" document available at https://orgmode.org/worg/org-contrib/babel/i
 *** ditaa
 
     HTML export of code:
-    #+begin_src ditaa :file blue.png :cmdline -r
+    #+begin_src dita :file blue.png :cmdline -r
         +---------+
         | cBLU    |
         |         |
@@ -113,10 +114,3 @@ Introduction" document available at https://orgmode.org/worg/org-contrib/babel/i
    #+resname:
    | 1 | 1 | 2 |  3 |  5 |   8 |  13 |  21 |   34 |   55 |
    | 1 | 3 | 8 | 21 | 55 | 144 | 377 | 987 | 2584 | 6765 |
-
-** In-line Code Blocks
-   Code can be evaluated in-line using the following syntax:
-
-   : Without header args: src_lang{code} or with header args: src_lang[args]{code},
-   : for example src_python[:session]{10*x}, where x is a variable existing in the
-   : python session.

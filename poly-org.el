@@ -52,7 +52,7 @@
                            :mode 'host
                            :head-mode 'host
                            :tail-mode 'host
-                           :head-matcher "^[ \t]*#\\+begin_src .*$"
+                           :head-matcher "^[ \t]*#\\+begin_src .*\n"
                            :tail-matcher "^[ \t]*#\\+end_src"
                            :head-adjust-face nil
                            :mode-matcher (cons "#\\+begin_src +\\([^ \t\n]+\\)" 1)

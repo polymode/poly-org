@@ -44,7 +44,7 @@
                      :protect-syntax nil
                      :protect-font-lock nil)
   "Org host chunkmode."
-  :group 'poly-host-modes
+  :group 'poly-hostmodes
   :type 'object)
 
 (defcustom  pm-inner/org
@@ -58,7 +58,7 @@
                            :mode-matcher (cons "#\\+begin_src +\\([^ \t\n]+\\)" 1)
                            :indent-offset org-edit-src-content-indentation)
   "Org typical chunk."
-  :group 'poly-inner-modes
+  :group 'poly-innermodes
   :type 'object)
 
 (defcustom pm-poly/org

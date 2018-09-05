@@ -37,13 +37,13 @@
     (let ((span (pm-innermost-span (point-min))))
       (should (eq (car span) nil))
       (should (= (nth 1 span) 60))
-      (should (= (nth 2 span) 67)))
+      (should (= (nth 2 span) 85)))
     (widen)
-    (narrow-to-region 60 500)
+    (narrow-to-region 60 200)
     (let ((span (pm-innermost-span (point-max))))
       (should (eq (car span) 'head))
-      (should (= (nth 1 span) 495))
-      (should (= (nth 2 span) 500)))))
+      (should (= (nth 1 span) 189))
+      (should (= (nth 2 span) 200)))))
 
 (ert-deftest poly-org/spans-at-point-max ()
   (pm-test-run-on-file poly-org-mode "ob-doc-js.org"
@@ -100,7 +100,7 @@
      (pm-switch-to-buffer)
      (should (eq major-mode 'org-mode)))))
 
-(ert-deftest poly-org/narrowed-spans ()
+(ert-deftest poly-org/correct-inner-mode ()
   (pm-test-run-on-file poly-org-mode "babel-code.org"
     (goto-char (point-min))
     (pm-switch-to-buffer)

@@ -1,7 +1,7 @@
 
 (require 'org)
 (require 'poly-org)
-(require 'polymode-test)
+(require 'polymode-test-utils)
 
 (setq python-indent-offset 4
       python-indent-guess-indent-offset nil)
@@ -9,9 +9,9 @@
 (ert-deftest poly-org/spans-at-borders ()
   (pm-test-run-on-file poly-org-mode "babel-code.org"
     (pm-map-over-spans
-     (lambda ()
-       (let* ((sbeg (nth 1 *span*))
-              (send (nth 2 *span*))
+     (lambda (span)
+       (let* ((sbeg (nth 1 span))
+              (send (nth 2 span))
               (range1 (pm-innermost-range sbeg))
               (range2 (pm-innermost-range send)))
          (should (eq sbeg (car range1)))
@@ -22,8 +22,8 @@
 (ert-deftest poly-org/spans-at-narrowed-borders ()
   (pm-test-run-on-file poly-org-mode "ob-doc-js.org"
     (pm-map-over-spans
-     (lambda ()
-       (pm-with-narrowed-to-span *span*
+     (lambda (span)
+       (pm-with-narrowed-to-span span
          (let* ((range1 (pm-innermost-range (point-min)))
                 (range2 (pm-innermost-range (point-max))))
            (should (eq (car range1) (point-min)))

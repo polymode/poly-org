@@ -47,6 +47,11 @@
       (or (cdr (assoc lang org-src-lang-modes))
           lang))))
 
+(defun poly-org--maybe-enable-org-indent (_)
+  (when (and (boundp 'org-indent-mode)
+             org-startup-indented)
+    (org-indent-mode)))
+
 (define-hostmode poly-org-hostmode
   :mode 'org-mode
   :protect-syntax nil
@@ -59,6 +64,7 @@
   :head-matcher "^[ \t]*#\\+begin_src .*\n"
   :tail-matcher "^[ \t]*#\\+end_src"
   :head-adjust-face nil
+  :init-functions '(poly-org--maybe-enable-org-indent)
   :mode-matcher #'poly-org-mode-matcher
   :indent-offset org-edit-src-content-indentation)
 

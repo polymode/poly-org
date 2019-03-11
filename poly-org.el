@@ -38,7 +38,7 @@
 (require 'org-src)
 (require 'polymode)
 
-(defun poly-org--chunk-mode ()
+(defun poly-org-mode-matcher ()
   (re-search-forward "#\\+begin_src +\\([^ \t\n]+\\)" (point-at-eol) t)
   (org-src--get-lang-mode (match-string-no-properties 1)))
 
@@ -59,7 +59,7 @@
                            :head-matcher "^[ \t]*#\\+begin_src .*\n"
                            :tail-matcher "^[ \t]*#\\+end_src"
                            :head-adjust-face nil
-                           :mode-matcher #'poly-org--chunk-mode
+                           :mode-matcher #'poly-org-mode-matcher
                            :indent-offset org-edit-src-content-indentation)
   "Org typical chunk."
   :group 'poly-innermodes

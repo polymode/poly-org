@@ -11,9 +11,9 @@ LINTELS = $(filter-out poly-org-autoloads.el, $(ELS))
 
 # export PM_VERBOSE
 
-.PHONY: test version compile
+.PHONY: all build checkdoc lint clean cleanall melpa elpa start test version
 
-all: compile checkdoc test
+all: build checkdoc test
 
 build: version clean
 	@echo "******************* BUILDING $(MODULE) *************************"
@@ -25,7 +25,8 @@ checkdoc: version
 
 lint: version
 	@$(EMACSBATCH) --load targets/melpa.el --load elisp-lint.el \
-		--funcall elisp-lint-files-batch --no-package-format --no-fill-column $(LINTELS)
+		--funcall elisp-lint-files-batch \
+		--no-fill-column --no-indent-character --no-package-format $(LINTELS)
 
 clean:
 	rm -f $(OBJECTS)
@@ -43,7 +44,12 @@ start: version melpa
 		--load targets/melpa-init.el \
 		--load tests/*.el
 
-test: version
+startvs: version
+	$(EMACSRUN) -L . \
+		--load targets/local.el \
+		--load tests/*.el --load ~/.eBasic.el
+
+test: build version
 	@echo "******************* Testing $(MODULE) ***************************"
 	$(EMACSBATCH) --load targets/melpa-init.el --load targets/test.el
 

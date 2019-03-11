@@ -74,9 +74,11 @@
   :type 'object)
 
 ;;;###autoload  (autoload 'poly-org-mode "poly-org")
-(define-polymode poly-org-mode pm-poly/org)
+(define-polymode poly-org-mode pm-poly/org
+  (setq-local org-src-fontify-natively nil))
 
  ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.org$" . poly-org-mode))
+(add-to-list 'auto-mode-alist '("\\.org\\'" . poly-org-mode))
 
 (provide 'poly-org)
+;;; poly-org.el ends here

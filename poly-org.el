@@ -35,46 +35,34 @@
 ;;
 ;;; Code:
 
-(require 'org-src)
 (require 'polymode)
+(require 'org-src)
+
+(define-obsolete-variable-alias 'pm-host/org 'poly-org-hostmode "v0.2")
+(define-obsolete-variable-alias 'pm-inner/org 'poly-org-innermode "v0.2")
 
 (defun poly-org-mode-matcher ()
   (re-search-forward "#\\+begin_src +\\([^ \t\n]+\\)" (point-at-eol) t)
   (org-src--get-lang-mode (match-string-no-properties 1)))
 
-(defcustom pm-host/org
-  (pm-host-chunkmode :name "org"
-                     :mode 'org-mode
-                     :protect-syntax nil
-                     :protect-font-lock nil)
-  "Org host chunkmode."
-  :group 'poly-hostmodes
-  :type 'object)
+(define-hostmode poly-org-hostmode
+  :mode 'org-mode
+  :protect-syntax nil
+  :protect-font-lock nil)
 
-(defcustom  pm-inner/org
-  (pm-inner-auto-chunkmode :name "org"
-                           :mode 'host
-                           :head-mode 'host
-                           :tail-mode 'host
-                           :head-matcher "^[ \t]*#\\+begin_src .*\n"
-                           :tail-matcher "^[ \t]*#\\+end_src"
-                           :head-adjust-face nil
-                           :mode-matcher #'poly-org-mode-matcher
-                           :indent-offset org-edit-src-content-indentation)
-  "Org typical chunk."
-  :group 'poly-innermodes
-  :type 'object)
-
-(defcustom pm-poly/org
-  (pm-polymode :name "org"
-               :hostmode 'pm-host/org
-               :innermodes '(pm-inner/org))
-  "Org typical polymode configuration."
-  :group 'polymodes
-  :type 'object)
+(define-auto-innermode poly-org-innermode
+  :head-mode 'host
+  :tail-mode 'host
+  :head-matcher "^[ \t]*#\\+begin_src .*\n"
+  :tail-matcher "^[ \t]*#\\+end_src"
+  :head-adjust-face nil
+  :mode-matcher #'poly-org-mode-matcher
+  :indent-offset org-edit-src-content-indentation)
 
 ;;;###autoload  (autoload 'poly-org-mode "poly-org")
-(define-polymode poly-org-mode pm-poly/org
+(define-polymode poly-org-mode
+  :hostmode 'poly-org-hostmode
+  :innermodes '(poly-org-innermode)
   (setq-local org-src-fontify-natively nil))
 
  ;;;###autoload

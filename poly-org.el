@@ -42,8 +42,10 @@
 (define-obsolete-variable-alias 'pm-inner/org 'poly-org-innermode "v0.2")
 
 (defun poly-org-mode-matcher ()
-  (re-search-forward "#\\+begin_src +\\([^ \t\n]+\\)" (point-at-eol) t)
-  (org-src--get-lang-mode (match-string-no-properties 1)))
+  (when (re-search-forward "#\\+begin_src +\\([^ \t\n]+\\)" (point-at-eol) t)
+    (let ((lang (match-string-no-properties 1)))
+      (or (cdr (assoc lang org-src-lang-modes))
+          lang))))
 
 (define-hostmode poly-org-hostmode
   :mode 'org-mode

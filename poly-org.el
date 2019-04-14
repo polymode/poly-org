@@ -53,7 +53,7 @@
   :protect-font-lock nil)
 
 (define-auto-innermode poly-org-innermode
-  :mode 'host
+  :fallback-mode 'host
   :head-mode 'host
   :tail-mode 'host
   :head-matcher "^[ \t]*#\\+begin_src .*\n"

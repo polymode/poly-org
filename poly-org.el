@@ -60,7 +60,8 @@
   :tail-matcher "^[ \t]*#\\+end_src"
   :head-adjust-face nil
   :mode-matcher #'poly-org-mode-matcher
-  :indent-offset org-edit-src-content-indentation)
+  :body-indent-offset 'org-edit-src-content-indentation
+  :indent-offset 'org-edit-src-content-indentation)
 
 ;;;###autoload  (autoload 'poly-org-mode "poly-org")
 (define-polymode poly-org-mode

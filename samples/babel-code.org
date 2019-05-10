@@ -31,8 +31,8 @@ Introduction" document available at https://orgmode.org/worg/org-contrib/babel/i
 
     HTML export of code:
     #+begin_src pascal
-       // shell prints messages on initialization; so we are using pascal here for test's sake
-       echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
+      // shell prints messages on initialization; so we are using pascal here for test's sake
+      echo "This file takes up `du -h org-babel.org |sed 's/\([0-9k]*\)[ ]*org-babel.org/\1/'`"
     #+end_src
 
 *** R

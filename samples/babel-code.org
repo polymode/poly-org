@@ -40,7 +40,7 @@ Introduction" document available at https://orgmode.org/worg/org-contrib/babel/i
 
     HTML export of code:
 
-    #+begin_src R :colnames yes
+    #+begin_src R :colnames yes :session "*R-org*"
       words <- tolower(scan("babel-code.org", what="", na.strings=c("|",":")))
       t(sort(table(words[nchar(words) > 3]), decreasing=TRUE)[1:10])
     #+end_src

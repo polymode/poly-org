@@ -47,6 +47,20 @@
       (or (cdr (assoc lang org-src-lang-modes))
           lang))))
 
+(defun poly-org-convey-src-block-params-to-inner-modes (_ this-buf)
+  "Move src block parameters to innermode specific locals.
+Used in :switch-buffer-functions slot."
+  (cond
+   ((derived-mode-p 'ess-mode)
+    (with-current-buffer (pm-base-buffer)
+      (let* ((params (nth 2 (org-babel-get-src-block-info t)))
+             (session (cdr (assq :session params))))
+        (when (and session (org-babel-comint-buffer-livep session))
+          (let ((proc (buffer-local-value 'ess-local-process-name
+                                          (get-buffer session))))
+            (with-current-buffer this-buf
+              (setq ess-local-process-name proc)))))))))
+
 (define-hostmode poly-org-hostmode
   :mode 'org-mode
   :protect-syntax nil
@@ -58,8 +72,9 @@
   :tail-mode 'host
   :head-matcher "^[ \t]*#\\+begin_src .*\n"
   :tail-matcher "^[ \t]*#\\+end_src"
-  :head-adjust-face nil
   :mode-matcher #'poly-org-mode-matcher
+  :head-adjust-face nil
+  :switch-buffer-functions '(poly-org-convey-src-block-params-to-inner-modes)
   :body-indent-offset 'org-edit-src-content-indentation
   :indent-offset 'org-edit-src-content-indentation)
 

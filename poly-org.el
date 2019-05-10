@@ -67,7 +67,9 @@
 (define-polymode poly-org-mode
   :hostmode 'poly-org-hostmode
   :innermodes '(poly-org-innermode)
-  (setq-local org-src-fontify-natively nil))
+  (setq-local org-src-fontify-natively nil)
+  (make-local-variable 'polymode-move-these-minor-modes-from-old-buffer)
+  (push 'org-indent-mode polymode-move-these-minor-modes-from-old-buffer))
 
  ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.org\\'" . poly-org-mode))

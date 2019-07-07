@@ -66,10 +66,13 @@ Used in :switch-buffer-functions slot."
   :protect-syntax nil
   :protect-font-lock nil)
 
-(define-auto-innermode poly-org-src-innermode
+(define-innermode poly-org-root-innermode
+  :mode nil
   :fallback-mode 'host
   :head-mode 'host
-  :tail-mode 'host
+  :tail-mode 'host)
+
+(define-auto-innermode poly-org-src-innermode poly-org-root-innermode
   :head-matcher "^[ \t]*#\\+begin_src .*\n"
   :tail-matcher "^[ \t]*#\\+end_src"
   :mode-matcher #'poly-org-mode-src-matcher
@@ -78,10 +81,7 @@ Used in :switch-buffer-functions slot."
   :body-indent-offset 'org-edit-src-content-indentation
   :indent-offset 'org-edit-src-content-indentation)
 
-(define-innermode poly-org-latex-innermode
-  :fallback-mode 'host
-  :head-mode 'host
-  :tail-mode 'host
+(define-innermode poly-org-latex-innermode poly-org-root-innermode
   :mode 'latex-mode
   :head-matcher "^[ \t]*\\\\begin{.*}\n"
   :tail-matcher "^[ \t]*\\\\end{.*}\n")

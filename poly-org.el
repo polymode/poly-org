@@ -42,7 +42,12 @@
 (define-obsolete-variable-alias 'pm-inner/org 'poly-org-innermode "v0.2")
 
 (defun poly-org-mode-matcher ()
-  (when (re-search-forward "#\\+begin_src +\\([^ \t\n]+\\)" (point-at-eol) t)
+  (when (re-search-forward
+         ;; in fact, it does not have to be src or example
+         ;; it seems like org would accept any #+begin_pazuzu
+         (rx "#+begin_" (or "src" "example")
+             (+ " ") (group (+ (not (or " " "\t" "\n")))))
+         (point-at-eol) t)
     (let ((lang (match-string-no-properties 1)))
       (or (cdr (assoc lang org-src-lang-modes))
           lang))))
@@ -70,8 +75,14 @@ Used in :switch-buffer-functions slot."
   :fallback-mode 'host
   :head-mode 'host
   :tail-mode 'host
-  :head-matcher "^[ \t]*#\\+begin_src .*\n"
-  :tail-matcher "^[ \t]*#\\+end_src"
+  ;; the following is incorrect:
+  ;; tail-matcher actually depends on head-matcher
+  :head-matcher (rx line-start (* (or " " "\t"))
+                    "#+begin_" (or "src" "example")
+                    " " (* not-newline)
+                    "\n")
+  :tail-matcher (rx line-start (* (or " " "\t"))
+                    "#+end_" (or "src" "example"))
   :mode-matcher #'poly-org-mode-matcher
   :head-adjust-face nil
   :switch-buffer-functions '(poly-org-convey-src-block-params-to-inner-modes)

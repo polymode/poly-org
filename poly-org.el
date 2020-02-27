@@ -43,9 +43,15 @@
 
 (defun poly-org-mode-matcher ()
   (when (re-search-forward
-         ;; in fact, it does not have to be src or example
-         ;; it seems like org would accept any #+begin_pazuzu
-         (rx "#+begin_" (or "src" "example")
+         ;; there is no exhaustive list of block names in org-mode source
+         ;; the most complete list would be
+         ;; the default value of org-structure-template-alist
+         ;; we took everything listed there into account
+         ;; it is known however there's begin_latex and who knows what else
+         ;; that should be given yet more special treatment
+         ;; Last but not least, we repeat this list thrice in this file
+         ;; which is horrendous and something has to be done about it
+         (rx "#+begin_" (or "src" "example" "export")
              (+ " ") (group (+ (not (or " " "\t" "\n")))))
          (point-at-eol) t)
     (let ((lang (match-string-no-properties 1)))
@@ -78,11 +84,11 @@ Used in :switch-buffer-functions slot."
   ;; the following is incorrect:
   ;; tail-matcher actually depends on head-matcher
   :head-matcher (rx line-start (* (or " " "\t"))
-                    "#+begin_" (or "src" "example")
+                    "#+begin_" (or "src" "example" "export")
                     " " (* not-newline)
                     "\n")
   :tail-matcher (rx line-start (* (or " " "\t"))
-                    "#+end_" (or "src" "example"))
+                    "#+end_" (or "src" "example" "export"))
   :mode-matcher #'poly-org-mode-matcher
   :head-adjust-face nil
   :switch-buffer-functions '(poly-org-convey-src-block-params-to-inner-modes)

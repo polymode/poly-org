@@ -2,7 +2,7 @@
 ;;
 ;; Author: Vitalie Spinu
 ;; Maintainer: Vitalie Spinu
-;; Copyright (C) 2013-2018 Vitalie Spinu
+;; Copyright (C) 2013-2020 Vitalie Spinu
 ;; Version: 0.2
 ;; Package-Requires: ((emacs "25") (polymode "0.2"))
 ;; URL: https://github.com/polymode/poly-org

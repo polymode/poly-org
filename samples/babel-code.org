@@ -27,6 +27,11 @@ Introduction" document available at https://orgmode.org/worg/org-contrib/babel/i
       "This file was last evaluated on #{Date.today}"
     #+end_src
 
+    #+begin_example ruby
+      "This file was last evaluated on #{Date.today}"
+    #+end_example
+
+
 *** Shell
 
     HTML export of code:

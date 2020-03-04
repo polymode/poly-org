@@ -2,7 +2,7 @@
 ;;
 ;; Author: Vitalie Spinu
 ;; Maintainer: Vitalie Spinu
-;; Copyright (C) 2013-2018 Vitalie Spinu
+;; Copyright (C) 2013-2020 Vitalie Spinu
 ;; Version: 0.2
 ;; Package-Requires: ((emacs "25") (polymode "0.2"))
 ;; URL: https://github.com/polymode/poly-org
@@ -36,17 +36,19 @@
 ;;; Code:
 
 (require 'polymode)
+(require 'org)
 (require 'org-src)
 
 (define-obsolete-variable-alias 'pm-host/org 'poly-org-hostmode "v0.2")
 (define-obsolete-variable-alias 'pm-inner/org 'poly-org-innermode "v0.2")
 
 (defun poly-org-mode-matcher ()
-  (when (re-search-forward "#\\+begin_src +\\([^ \t\n]+\\)" (point-at-eol) t)
-    (let ((lang (match-string-no-properties 1)))
+  (when (re-search-forward "#\\+begin_\\(src\\|example\\|export\\) +\\([^ \t\n]+\\)" (point-at-eol) t)
+    (let ((lang (match-string-no-properties 2)))
       (or (cdr (assoc lang org-src-lang-modes))
           lang))))
 
+(defvar ess-local-process-name)
 (defun poly-org-convey-src-block-params-to-inner-modes (_ this-buf)
   "Move src block parameters to innermode specific locals.
 Used in :switch-buffer-functions slot."
@@ -59,7 +61,7 @@ Used in :switch-buffer-functions slot."
           (let ((proc (buffer-local-value 'ess-local-process-name
                                           (get-buffer session))))
             (with-current-buffer this-buf
-              (setq ess-local-process-name proc)))))))))
+              (setq-local ess-local-process-name proc)))))))))
 
 (define-hostmode poly-org-hostmode
   :mode 'org-mode
@@ -70,8 +72,8 @@ Used in :switch-buffer-functions slot."
   :fallback-mode 'host
   :head-mode 'host
   :tail-mode 'host
-  :head-matcher "^[ \t]*#\\+begin_src .*\n"
-  :tail-matcher "^[ \t]*#\\+end_src"
+  :head-matcher "^[ \t]*#\\+begin_\\(src\\|example\\|export\\) .*\n"
+  :tail-matcher "^[ \t]*#\\+end_\\(src\\|example\\|export\\)"
   :mode-matcher #'poly-org-mode-matcher
   :head-adjust-face nil
   :switch-buffer-functions '(poly-org-convey-src-block-params-to-inner-modes)

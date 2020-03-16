@@ -3,8 +3,8 @@
 ;; Author: Vitalie Spinu
 ;; Maintainer: Vitalie Spinu
 ;; Copyright (C) 2013-2020 Vitalie Spinu
-;; Version: 0.2
-;; Package-Requires: ((emacs "25") (polymode "0.2"))
+;; Version: 0.2.1
+;; Package-Requires: ((emacs "25") (polymode "0.2.1"))
 ;; URL: https://github.com/polymode/poly-org
 ;; Keywords: languages, multi-modes
 ;;

@@ -43,10 +43,11 @@
 (define-obsolete-variable-alias 'pm-inner/org 'poly-org-innermode "v0.2")
 
 (defun poly-org-mode-matcher ()
-  (when (re-search-forward "#\\+begin_\\(src\\|example\\|export\\) +\\([^ \t\n]+\\)" (point-at-eol) t)
-    (let ((lang (match-string-no-properties 2)))
-      (or (cdr (assoc lang org-src-lang-modes))
-          lang))))
+  (let ((case-fold-search t))
+    (when (re-search-forward "#\\+begin_\\(src\\|example\\|export\\) +\\([^ \t\n]+\\)" (point-at-eol) t)
+      (let ((lang (match-string-no-properties 2)))
+        (or (cdr (assoc lang org-src-lang-modes))
+            lang)))))
 
 (defvar ess-local-process-name)
 (defun poly-org-convey-src-block-params-to-inner-modes (_ this-buf)

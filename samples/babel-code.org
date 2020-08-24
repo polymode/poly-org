@@ -19,7 +19,7 @@ Introduction" document available at https://orgmode.org/worg/org-contrib/babel/i
   followed by their output. If you are viewing the Org-mode version of
   this document in Emacs, place point anywhere inside a block and press
   C-c C-c to run the code[fn:1] (and feel free to alter it!).
-  
+
 *** Ruby
 
     HTML export of code:
@@ -119,3 +119,14 @@ Introduction" document available at https://orgmode.org/worg/org-contrib/babel/i
    #+resname:
    | 1 | 1 | 2 |  3 |  5 |   8 |  13 |  21 |   34 |   55 |
    | 1 | 3 | 8 | 21 | 55 | 144 | 377 | 987 | 2584 | 6765 |
+
+
+* Inline Latex
+
+
+  \begin{equation} % arbitrary environments,
+     x=\sqrt{b} % even tables, figures
+  \end{equation}  % def
+
+If $a^2=b$ and \( b=2 \), then the solution must be
+either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].

@@ -81,10 +81,18 @@ Used in :switch-buffer-functions slot."
   :body-indent-offset 'org-edit-src-content-indentation
   :indent-offset 'org-edit-src-content-indentation)
 
+(define-innermode poly-org-latex-innermode nil
+  "Innermode for matching latex fragments in `org-mode'"
+  :mode 'latex-mode
+  :head-matcher "\\\\begin{.+}"
+  :tail-matcher "\\\\end{.+}.*$"
+  :head-mode 'body
+  :tail-mode 'body)
+
 ;;;###autoload  (autoload 'poly-org-mode "poly-org")
 (define-polymode poly-org-mode
   :hostmode 'poly-org-hostmode
-  :innermodes '(poly-org-innermode)
+  :innermodes '(poly-org-innermode poly-org-latex-innermode)
   (setq-local org-src-fontify-natively nil)
   (make-local-variable 'polymode-move-these-minor-modes-from-old-buffer)
   (push 'org-indent-mode polymode-move-these-minor-modes-from-old-buffer))

@@ -94,8 +94,17 @@ Used in :switch-buffer-functions slot."
   :hostmode 'poly-org-hostmode
   :innermodes '(poly-org-innermode poly-org-latex-innermode)
   (setq-local org-src-fontify-natively nil)
-  (make-local-variable 'polymode-move-these-minor-modes-from-old-buffer)
-  (push 'org-indent-mode polymode-move-these-minor-modes-from-old-buffer))
+  (setq-local polymode-move-these-minor-modes-from-old-buffer
+              (append '(org-indent-mode)
+                      polymode-move-these-minor-modes-from-old-buffer))
+  (setq-local polymode-run-these-before-change-functions-in-other-bufers
+              (append '(org-before-change-function
+                        org-element--cache-before-change
+                        org-table-remove-rectangle-highlight)
+                      polymode-run-these-before-change-functions-in-other-bufers))
+  (setq-local polymode-run-these-after-change-functions-in-other-bufers
+              (append '(org-element--cache-after-change)
+                      polymode-run-these-after-change-functions-in-other-bufers)))
 
  ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.org\\'" . poly-org-mode))

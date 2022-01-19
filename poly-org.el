@@ -85,9 +85,9 @@ Used in :switch-buffer-functions slot."
   "Innermode for matching latex fragments in `org-mode'"
   :mode 'latex-mode
   :head-matcher "\\\\begin{.+}"
-  :tail-matcher "\\\\end{.+}.*$"
-  :head-mode 'body
-  :tail-mode 'body)
+  :tail-matcher "^\\s-*\\\\end{.+}.*$"
+  :head-mode 'host
+  :tail-mode 'host)
 
 ;;;###autoload  (autoload 'poly-org-mode "poly-org")
 (define-polymode poly-org-mode

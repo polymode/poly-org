@@ -75,10 +75,10 @@ I write an helper command to insert session header argument easily:
     (org-babel-insert-header-arg
      "session"
       (pcase session
-       ("js-comint" "\"*Javascript REPL*\"")
+        ("js-comint" "\"*Javascript REPL*\"")
        ("skewer-mode" "\"*skewer-repl*\"")
        ("indium" "\"*JS REPL*\""))))
-
+   
   (define-key org-babel-map (kbd "J") 'ob-js-insert-session-header-arg)
 #+END_SRC
 

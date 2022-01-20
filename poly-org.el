@@ -97,14 +97,14 @@ Used in :switch-buffer-functions slot."
   (setq-local polymode-move-these-minor-modes-from-old-buffer
               (append '(org-indent-mode)
                       polymode-move-these-minor-modes-from-old-buffer))
-  (setq-local polymode-run-these-before-change-functions-in-other-bufers
+  (setq-local polymode-run-these-before-change-functions-in-other-buffers
               (append '(org-before-change-function
                         org-element--cache-before-change
                         org-table-remove-rectangle-highlight)
-                      polymode-run-these-before-change-functions-in-other-bufers))
-  (setq-local polymode-run-these-after-change-functions-in-other-bufers
+                      polymode-run-these-before-change-functions-in-other-buffers))
+  (setq-local polymode-run-these-after-change-functions-in-other-buffers
               (append '(org-element--cache-after-change)
-                      polymode-run-these-after-change-functions-in-other-bufers)))
+                      polymode-run-these-after-change-functions-in-other-buffers)))
 
  ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.org\\'" . poly-org-mode))

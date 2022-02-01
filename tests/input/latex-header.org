@@ -1,0 +1,24 @@
+#+TITLE: Title
+#+AUTHOR: Author
+#+DATE: \today
+#+STARTUP: showall noindent
+#+LATEX_HEADER: \usepackage{a4wide}
+#+LATEX_HEADER: \usepackage[usenames,dvipsnames]{xcolor}
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{mdframed}
+#+LATEX_HEADER: \usepackage{fancyvrb}
+#+LATEX_HEADER: \usemintedstyle{friendly}
+#+LATEX_HEADER: \mdfdefinestyle{mystyle}{linecolor=gray!30,backgroundcolor=gray!30}
+#+LATEX_HEADER: \BeforeBeginEnvironment{minted}{%
+#+LATEX_HEADER: \begin{mdframed}[style=mystyle]}
+#+LATEX_HEADER: \AfterEndEnvironment{minted}{%
+#+LATEX_HEADER: \end{mdframed}}
+#+LANGUAGE: fr
+
+* A first org header
+
+\begin{mdframed}[style=mystyle]
+   \some{latex}[here]
+\end{mdframed}
+
+Some org here.

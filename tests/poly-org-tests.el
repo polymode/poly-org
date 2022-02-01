@@ -150,3 +150,14 @@
       (poly-org-mode)
       (should (eq major-mode 'org-mode))
       (should-not (buffer-live-p cbuf)))))
+
+(ert-deftest poly-org/latex-header ()
+  (pm-test-poly-lock poly-org-mode "latex-header.org"
+    ((header-no-latex "AfterEndEnvironment")
+     (pm-switch-to-buffer)
+     (should (eq major-mode 'org-mode)))
+    ((some-latex "some{latex}")
+     (pm-switch-to-buffer)
+     (should (eq major-mode 'latex-mode)))
+    ((org "Some org here")
+     (should (eq major-mode 'org-mode)))))

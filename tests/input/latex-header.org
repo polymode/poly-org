@@ -17,8 +17,8 @@
 
 * A first org header
 
-\begin{mdframed}[style=mystyle]
-   \some{latex}[here]
-\end{mdframed}
+  \begin{mdframed}[style=mystyle]
+    \some{latex}[here]
+  \end{mdframed}
 
 Some org here.

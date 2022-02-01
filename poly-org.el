@@ -84,9 +84,10 @@ Used in :switch-buffer-functions slot."
 (define-innermode poly-org-latex-innermode nil
   "Innermode for matching latex fragments in `org-mode'"
   :mode 'latex-mode
+  :body-indent-offset 'LaTeX-indent-level
   ;; has to be bol-anchored to avoid false-positive as in #35
-  :head-matcher "^\\s-*\\\\begin{.+}.*$"
-  :tail-matcher "^\\s-*\\\\end{.+}.*$"
+  :head-matcher "^[ \t]*\\\\begin{.+}.*$"
+  :tail-matcher "^[ \t]*\\\\end{.+}.*$"
   :head-mode 'host
   :tail-mode 'host)
 

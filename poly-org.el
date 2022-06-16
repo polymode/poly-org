@@ -95,7 +95,7 @@ Used in :switch-buffer-functions slot."
 (define-polymode poly-org-mode
   :hostmode 'poly-org-hostmode
   :innermodes '(poly-org-innermode poly-org-latex-innermode)
-  (setq-local org-src-fontify-natively nil)
+  (setq-local org-src-fontify-natively t)
   (setq-local polymode-move-these-minor-modes-from-old-buffer
               (append '(org-indent-mode)
                       polymode-move-these-minor-modes-from-old-buffer))

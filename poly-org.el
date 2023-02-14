@@ -103,16 +103,14 @@ Used in :switch-buffer-functions slot."
   :hostmode 'poly-org-hostmode
   :innermodes '(poly-org-innermode poly-org-latex-innermode)
   (setq-local org-src-fontify-natively t)
-  (setq-local polymode-move-these-minor-modes-from-old-buffer
-              (append '(org-indent-mode)
-                      polymode-move-these-minor-modes-from-old-buffer))
   (setq-local polymode-run-these-before-change-functions-in-other-buffers
               (append '(org-before-change-function
                         org-element--cache-before-change
                         org-table-remove-rectangle-highlight)
                       polymode-run-these-before-change-functions-in-other-buffers))
   (setq-local polymode-run-these-after-change-functions-in-other-buffers
-              (append '(org-element--cache-after-change)
+              (append '(org-element--cache-after-change
+                        org-indent-refresh-maybe)
                       polymode-run-these-after-change-functions-in-other-buffers)))
 
 (pm-around-advice 'org-element-at-point #'polymode-with-current-base-buffer)

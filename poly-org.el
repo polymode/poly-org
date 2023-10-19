@@ -62,7 +62,14 @@ Used in :switch-buffer-functions slot."
           (let ((proc (buffer-local-value 'ess-local-process-name
                                           (get-buffer session))))
             (with-current-buffer this-buf
-              (setq-local ess-local-process-name proc)))))))))
+              (setq-local ess-local-process-name proc)))))))
+   ((derived-mode-p 'emacs-lisp-mode)
+    (with-current-buffer (pm-base-buffer)
+      (let ((params (nth 2 (org-babel-get-src-block-info t))))
+        (with-current-buffer this-buf
+          (setq-local lexical-binding
+                      ;; TODO: Improve this criterion
+                      (string-equal "t" (cdr (assq :lexical params))))))))))
 
 (define-hostmode poly-org-hostmode
   :mode 'org-mode

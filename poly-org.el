@@ -42,6 +42,56 @@
 (define-obsolete-variable-alias 'pm-host/org 'poly-org-hostmode "v0.2")
 (define-obsolete-variable-alias 'pm-inner/org 'poly-org-innermode "v0.2")
 
+
+(defgroup poly-org nil
+  "Support for polymode in org src and latex blocks"
+  :group 'polymode)
+
+(defcustom poly-org-enable-keep-base-modes nil
+  "Whether to add poly-org enabled modes to `org-src-lang-modes'.
+Refer to `poly-org-enable-modes' for further details."
+  :group 'poly-org)
+
+;;;###autoload  (autoload 'poly-org-enable-modes "poly-org")
+(defun poly-org-enable-modes (key)
+  "Enable major-mode associated to KEY for use with poly-org.
+Creates a major-mode mode+org-mode derived from the mode that
+org associates to KEY. This derived mode will have org as an
+extra parent, so that org commands such as `org-element-at-point'
+can be used in the inner modes of poly-org src blocks.
+
+Argument KEY should be the string that org uses to associate
+a mode to a src block (after #+begin_src).
+If KEY is in org-src-lang-modes, then the created mode will
+be <mode>+org-mode where <mode> is the associated mode.
+If KEY is not org-src-lang-modes, then the created mode will
+be <key>+org-mode.
+If KEY is a list of keys, then a mode will be created for each
+key.
+
+By default, the mode+org-mode is added to `org-src-lang-modes',
+so that #+begin_src KEY blocks will be associated to mode+org-mode.
+This behavior can be prevented by setting`poly-org-enable-keep-base-modes'
+to a non-nil value. In this case, one would have to use instead
+begin_src <mode>+org to activate the org derived mode."
+  (if (listp key) (dolist (elt key) (poly-org-enable-modes elt))
+    (let ((base-mode (or (cdr (assoc key org-src-lang-modes)) key))
+          (new-mode nil))
+      (when (symbolp base-mode) (setq base-mode (symbol-name base-mode)))
+      ;; If base-mode is already mode+org, don't +org it again.
+      ;; [Keep this command unipotent.]
+      (unless (provided-mode-derived-p (intern (concat base-mode "-mode")) 'org-mode)
+        ;; Some work is needed because define-derived-mode is a macro,
+        ;; needs to be passed a symbol.
+        (setq new-mode (intern (concat base-mode "+org-mode")))
+        (setq new-mode (eval `(define-derived-mode ,new-mode
+                                ,(intern (concat base-mode "-mode"))
+                                ,(concat base-mode "+org"))))
+        (derived-mode-add-parents new-mode '(org-mode))
+        (unless poly-org-enable-keep-base-modes
+          (setq org-src-lang-modes (assoc-delete-all key org-src-lang-modes))
+          (push (cons key (intern (concat base-mode "+org"))) org-src-lang-modes))))))
+
 (defun poly-org-mode-matcher ()
   (let ((case-fold-search t))
     (when (re-search-forward "#\\+begin_\\(src\\|example\\|export\\) +\\([^ \t\n]+\\)" (point-at-eol) t)
@@ -83,7 +133,7 @@ Used in :switch-buffer-functions slot."
 
 (define-innermode poly-org-latex-innermode nil
   "Innermode for matching latex fragments in `org-mode'"
-  :mode 'latex-mode
+  :mode 'latex+org-mode
   :body-indent-offset 'LaTeX-indent-level
   ;; has to be bol-anchored to avoid false-positive as in #35
   :head-matcher "^[ \t]*\\\\begin{.+}.*$"

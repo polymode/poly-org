@@ -115,6 +115,8 @@ Used in :switch-buffer-functions slot."
               (append '(org-element--cache-after-change)
                       polymode-run-these-after-change-functions-in-other-buffers)))
 
+(pm-around-advice 'org-element-at-point #'polymode-with-current-base-buffer)
+
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.org\\'" . poly-org-mode))
 

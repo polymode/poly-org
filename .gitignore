@@ -15,3 +15,7 @@ site/
 *.elc
 *.html
 *.pdf
+
+# Packaging
+.eask/
+dist/
